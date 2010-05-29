@@ -31,7 +31,7 @@ sub _build_formatters {
 sub abstract { "extract your dist's Pod::Weaver configuration" }
 
 sub opt_spec {
-    [ 'format:s' => 'the output format to use. defaults to json' ],
+    [ 'format|f:s' => 'the output format to use. defaults to json' ],
 }
 
 sub execute {
@@ -89,6 +89,7 @@ sub format_weaver_config {
 sub print {
     my ($self, $formatted) = @_;
     $self->log($formatted);
+    return;
 }
 
 1;
