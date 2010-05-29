@@ -15,7 +15,8 @@ has formatters => (
     lazy    => 1,
     builder => '_build_formatters',
     handles => {
-        get_formatter_for => 'get',
+        formatter_for     => 'get',
+        has_formatter_for => 'exists',
     },
 );
 
@@ -76,14 +77,18 @@ sub extract_weaver_config {
 
 sub format_weaver_config {
     my ($self, $args) = @_;
-    my $formatter = $self->get_formatter_for($args->{format});
-    confess "No formatter available for " . $args->{format}
-        unless $formatter;
-    return $formatter->($args->{config});
+
+    unless ($self->has_formatter_for($args->{format})) {
+        $self->log("No formatter available for " . $args->{format});
+        exit 1;
+    }
+
+    return $self->formatter_for($args->{format})->($args->{config});
 }
 
 sub print {
-    print STDOUT $_[1], "\n";
+    my ($self, $formatted) = @_;
+    $self->log($formatted);
 }
 
 1;
