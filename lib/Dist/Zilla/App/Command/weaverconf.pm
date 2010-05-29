@@ -56,7 +56,7 @@ sub extract_weaver_config {
 
     my @weaver_plugins = @{ $zilla_weaver->weaver->plugins };
 
-    return {
+    return [
         collectors => [
             map {
                 +{ $_->command, $_->new_command }
@@ -73,7 +73,7 @@ sub extract_weaver_config {
                 $_->isa('Pod::Weaver::Plugin::Transformer')
             } @weaver_plugins
         ],
-    };
+    ];
 }
 
 sub format_weaver_config {
