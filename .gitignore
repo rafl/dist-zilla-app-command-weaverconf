@@ -1,0 +1,4 @@
+.*
+!.gitignore
+Dist-Zilla-App-Command-weaverconf-*
+Debian_CPANTS.txt
