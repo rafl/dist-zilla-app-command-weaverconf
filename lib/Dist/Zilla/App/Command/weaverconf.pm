@@ -51,7 +51,7 @@ sub extract_weaver_config {
     my $zilla_weaver = first {
         $_->isa('Dist::Zilla::Plugin::PodWeaver')
     } @{ $self->zilla->plugins};
-    return unless $zilla_weaver;
+    exit 1 unless $zilla_weaver;
 
     my @weaver_plugins = @{ $zilla_weaver->weaver->plugins };
 
