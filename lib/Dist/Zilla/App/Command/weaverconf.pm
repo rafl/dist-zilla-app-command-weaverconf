@@ -1,4 +1,5 @@
 package Dist::Zilla::App::Command::weaverconf;
+# ABSTRACT: Extract your distribution's Pod::Weaver configuration
 
 use Dist::Zilla::App -command;
 use Moose 0.91;
