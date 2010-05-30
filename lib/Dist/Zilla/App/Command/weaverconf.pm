@@ -56,24 +56,32 @@ sub extract_weaver_config {
 
     my @weaver_plugins = @{ $zilla_weaver->weaver->plugins };
 
-    return [
+    return {
         collectors => [
             map {
-                +{ $_->command, $_->new_command }
+                my $t = $_;
+                +{ map {
+                    ($_ => $t->$_)
+                } qw(command new_command) }
             } grep {
                 $_->isa('Pod::Weaver::Section::Collect')
             } @weaver_plugins
         ],
         transformers => [
             map {
-                $_->transformer->isa('Pod::Elemental::Transformer::List')
-                    ? +{ 'List' => $_->transformer->format_name }
-                    : ()
+                +{
+                    name => blessed $_->transformer,
+                    args => {
+                        $_->transformer->isa('Pod::Elemental::Transformer::List')
+                            ? (format_name => $_->transformer->format_name)
+                            : ()
+                    },
+                }
             } grep {
                 $_->isa('Pod::Weaver::Plugin::Transformer')
             } @weaver_plugins
         ],
-    ];
+    };
 }
 
 sub format_weaver_config {
