@@ -10,6 +10,44 @@ use MooseX::Types::Structured 0.20 qw(Map);
 use aliased 'Dist::Zilla::App::Command::weaverconf::SExpGen';
 use namespace::autoclean;
 
+=head1 SYNOPSIS
+
+    $ dzil weaverconf
+    {
+        "collectors" : [
+            { "command" : "attr",   "new_command" : "head2" },
+            { "command" : "method", "new_command" : "head2" },
+            { "command" : "func",   "new_command" : "head2" },
+            { "command" : "type",   "new_command" : "head2" }
+        ],
+        "transformers" : [
+            {
+                "name" : "Pod::Elemental::Transformer::List",
+                "args" : { "format_name" : "list" }
+            }
+        ]
+
+    }
+
+=head1 DESCRIPTION
+
+This command will extract the Pod::Weaver configuration from a
+directory containing a L<Dist::Zilla> distribution.
+
+The results will be serialized in the requested format, and written to
+C<STDOUT>.
+
+The option C<-f> or C<--format> may be used to request a particular
+output format. The following formats are currently available:
+
+=for :list
+* json
+the default
+* lisp
+a plist of lists of plists
+
+=cut
+
 has formatters => (
     traits  => [qw(Hash)],
     isa     => Map[Str, CodeRef],
